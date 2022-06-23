@@ -15,11 +15,44 @@ export async function createProgramConnection(
     return program as anchor.Program<TokenFaucet>
 }
 
+export async function initialize(
+    faucetId: string,
+    decimals: number,
+    mintQuantityNormalized: anchor.BN,
+    program: anchor.Program<TokenFaucet>,
+    confirmOpts: anchor.web3.ConfirmOptions
+) : Promise<string> {
+    if (program.provider.publicKey) {
+        let [tokenFaucetAddress, tokenFaucetBump] = await anchor.web3.PublicKey.findProgramAddress(
+            [program.provider.publicKey?.toBuffer(), Buffer.from(faucetId)],
+            program.programId
+        );
+        let [tokenFaucetMintAddress, tokenFaucetMintBump] = await anchor.web3.PublicKey.findProgramAddress(
+            [tokenFaucetAddress.toBuffer(), Buffer.from("faucet_mint")],
+            program.programId
+        );
+        const tx = await program.methods
+            .initializeTokenFaucet(faucetId, decimals, new anchor.BN(mintQuantityNormalized))
+            .accounts({
+                creator: program.provider.publicKey,
+                tokenFaucet: tokenFaucetAddress,
+                tokenMint: tokenFaucetMintAddress,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                systemProgram: anchor.web3.SystemProgram.programId,
+                rent: anchor.web3.SYSVAR_RENT_PUBKEY
+            })
+            .rpc(confirmOpts);
+        return tx;
+    } else {
+        throw { msg: "Must have a creator addresss!" }
+    }
+}
+
 export async function getMintAddress(
     program: anchor.Program<TokenFaucet>,
     faucetCreator: anchor.web3.PublicKey,
     faucetId: string,
-) : Promise<anchor.web3.PublicKey> {
+): Promise<anchor.web3.PublicKey> {
     let [tokenFaucetAddress, tokenFaucetBump] = await anchor.web3.PublicKey.findProgramAddress(
         [faucetCreator.toBuffer(), Buffer.from(faucetId)],
         program.programId
@@ -60,3 +93,11 @@ export async function mintToken(
         }).rpc(confirmOpts);
     return tx;
 }
+
+
+
+
+
+
+
+
