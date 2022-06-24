@@ -18,7 +18,7 @@ export async function createProgramConnection(
 export async function initialize(
     faucetId: string,
     decimals: number,
-    mintQuantityNormalized: anchor.BN,
+    mintQuantityNormalized: number,
     program: anchor.Program<TokenFaucet>,
     confirmOpts: anchor.web3.ConfirmOptions
 ) : Promise<string> {
