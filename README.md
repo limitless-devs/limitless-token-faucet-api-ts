@@ -1,6 +1,6 @@
 ## limitless-token-faucet-api-ts
 
-This is an ts-api for the [limitless-token-faucet](https://github.com/limitless-devs/limitless-token-faucet)
+This is the ts-api for the [limitless-token-faucet](https://github.com/limitless-devs/limitless-token-faucet)
 
 This api will let you create token faucets and mint tokens from them. The mint amount is fixed upon creating.
 
