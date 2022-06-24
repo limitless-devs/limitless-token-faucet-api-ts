@@ -9,6 +9,14 @@ Note: This is still WIP but should work as is.
 ## Usage
 
 ```
+npm i token-faucet-api-ts
+
+or 
+
+yarn add token-faucet-api-ts
+```
+
+```
 import * as fs from 'fs';
 import { Keypair } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
