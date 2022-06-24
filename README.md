@@ -39,17 +39,18 @@ async function run() {
     console.log("Txid:", initRes);
 
     //create token account for faucet mint
-    let faucetCreator = faucetProgram.provider.publicKey ?? new anchor.web3.PublicKey("");
+    let faucetCreator = faucetProgram.provider.publicKey as anchor.web3.PublicKey;
     console.log("Faucet Id:", faucetId)
     console.log("Faucet creator:", faucetCreator.toBase58())
-    let faucetUser = faucetProgram.provider.publicKey ?? new anchor.web3.PublicKey("");
+    //in this case the user is the creator
+    let faucetUser = faucetProgram.provider.publicKey as anchor.web3.PublicKey;
     let tokenFaucetMintAddress = await getMintAddress(faucetProgram, faucetCreator, faucetId);
     console.log("Faucet mint address:", tokenFaucetMintAddress.toBase58())
     let tokenAddress = await createAssociatedTokenAccount(
         faucetProgram.provider.connection,
         anchorWallet.payer,
         tokenFaucetMintAddress,
-        faucetProgram.provider.publicKey as anchor.web3.PublicKey,
+        faucetUser,
         confirmOpts
     );
     console.log("User token address:", tokenAddress.toBase58())
