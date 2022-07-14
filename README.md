@@ -1,8 +1,8 @@
 ## limitless-token-faucet-api-ts
 
-This is the ts-api for the [limitless-token-faucet](https://github.com/limitless-devs/limitless-token-faucet)
+This solana api will let you create token faucets and mint tokens from them. The mint amount is fixed upon creating.
 
-This api will let you create token faucets and mint tokens from them. The mint amount is fixed upon creating.
+This api connects to the [limitless-token-faucet](https://github.com/limitless-devs/limitless-token-faucet)
 
 Note: This is still WIP but should work as is - This is only on devnet. 
 
